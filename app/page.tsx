@@ -1,11 +1,13 @@
 import { Header } from "@/components/Header"
 import { HeroSection } from "@/components/HeroSection"
+import { VideoSection } from "@/components/VideoSection"
 import { DailyLeak } from "@/components/DailyLeak"
+import { AIChatDemo } from "@/components/AIChatDemo"
 import { RealCost } from "@/components/RealCost"
-import { DreamState } from "@/components/DreamState"
+import { WorkflowAnimation } from "@/components/WorkflowAnimation"
 import { WorkflowPipeline } from "@/components/WorkflowPipeline"
-import { AuditSection } from "@/components/AuditSection"
 import { ProductPaths } from "@/components/ProductPaths"
+import { SpecialistSection } from "@/components/SpecialistSection"
 import { FAQSection } from "@/components/FAQSection"
 import { FinalCTA } from "@/components/FinalCTA"
 import { Footer } from "@/components/Footer"
@@ -15,12 +17,14 @@ export default function Home() {
     <main className="min-h-screen">
       <Header />
       <HeroSection />
+      <VideoSection />
       <DailyLeak />
+      <AIChatDemo />
       <RealCost />
-      <DreamState />
+      <WorkflowAnimation />
       <WorkflowPipeline />
-      <AuditSection />
       <ProductPaths />
+      <SpecialistSection />
       <FAQSection />
       <FinalCTA />
       <Footer />
