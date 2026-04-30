@@ -2,12 +2,13 @@
 
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
-import { MessageCircle, Zap } from "lucide-react"
+import { MessageCircle, Bot } from "lucide-react"
+import Image from "next/image"
 
 const chatMessages = [
   {
     type: "user",
-    message: "Hi, is the property on Oak Street still available?",
+    message: "Any 4-bed homes, $400-500k?",
     delay: 0,
   },
   {
@@ -16,36 +17,51 @@ const chatMessages = [
   },
   {
     type: "ai",
-    message: "Yes! The 4-bed home on Oak Street is available at $450,000. It has been getting a lot of interest. Would you like me to capture your details for a priority viewing?",
+    message: "Found 3 matches. Budget and timeline confirmed. Agent Sarah gets your details now.",
     delay: 3,
   },
   {
     type: "user",
-    message: "Yes, I am free this weekend. Saturday afternoon works best.",
-    delay: 6,
+    message: "Can I view one this weekend?",
+    delay: 5.5,
   },
   {
     type: "typing",
-    delay: 7.5,
+    delay: 7,
   },
   {
     type: "ai",
-    message: "Perfect! I have scheduled a viewing for Saturday at 2:00 PM. You will receive a calendar invite and confirmation shortly. Is there anything specific you would like to know about the property before then?",
-    delay: 9,
+    message: "Saturday 2 PM confirmed. Calendar invite sent.",
+    delay: 8.5,
   },
 ]
 
-const platformLogos = [
-  { name: "WhatsApp", color: "#25D366" },
-  { name: "Messenger", color: "#0084FF" },
-  { name: "Instagram", color: "#E4405F" },
-  { name: "Website", color: "#FFFFFF" },
+const platforms = [
+  { 
+    name: "WhatsApp", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
+    color: "#25D366" 
+  },
+  { 
+    name: "Messenger", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg",
+    color: "#0084FF" 
+  },
+  { 
+    name: "Instagram", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
+    color: "#E4405F" 
+  },
+  { 
+    name: "Website", 
+    logo: null,
+    color: "#FFFFFF" 
+  },
 ]
 
 export function AIChatDemo() {
   const [visibleMessages, setVisibleMessages] = useState<number[]>([])
   const [showTyping, setShowTyping] = useState(false)
-  const [currentTypingIndex, setCurrentTypingIndex] = useState(-1)
   const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
@@ -58,14 +74,12 @@ export function AIChatDemo() {
         timers.push(
           setTimeout(() => {
             setShowTyping(true)
-            setCurrentTypingIndex(index)
           }, msg.delay * 1000)
         )
       } else {
         timers.push(
           setTimeout(() => {
             setShowTyping(false)
-            setCurrentTypingIndex(-1)
             setVisibleMessages((prev) => [...prev, index])
           }, msg.delay * 1000)
         )
@@ -76,10 +90,9 @@ export function AIChatDemo() {
     const resetTimer = setTimeout(() => {
       setVisibleMessages([])
       setShowTyping(false)
-      setCurrentTypingIndex(-1)
       setHasStarted(false)
       setTimeout(() => setHasStarted(true), 1000)
-    }, 14000)
+    }, 12000)
 
     return () => {
       timers.forEach(clearTimeout)
@@ -109,16 +122,16 @@ export function AIChatDemo() {
             <span className="text-sm text-cyan-400">AI Chat Assistant</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground mb-4 text-balance">
-            See how leads get handled{" "}
-            <span className="text-cyan-400">instantly.</span>
+            Qualification in{" "}
+            <span className="text-cyan-400">seconds.</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            A buyer asks a question. The AI responds in seconds. Watch it happen.
+            Serious buyers get fast-tracked. Time-wasters get filtered. Watch it happen.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Chat Interface */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* Chat Interface - Fixed height container */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -131,7 +144,7 @@ export function AIChatDemo() {
               {/* Chat Header */}
               <div className="px-5 py-4 border-b border-border/30 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
-                  <Zap size={18} className="text-black" />
+                  <Bot size={20} className="text-black" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-foreground">AI Assistant</p>
@@ -151,63 +164,64 @@ export function AIChatDemo() {
                 </div>
               </div>
 
-              {/* Chat Messages */}
-              <div className="p-5 min-h-[380px] space-y-4 bg-black/50">
-                <AnimatePresence mode="popLayout">
-                  {chatMessages.map((msg, index) => {
-                    if (msg.type === "typing") return null
-                    if (!visibleMessages.includes(index)) return null
+              {/* Chat Messages - FIXED HEIGHT to prevent layout shift */}
+              <div className="p-5 h-[320px] flex flex-col justify-end bg-black/50">
+                <div className="space-y-4 overflow-hidden">
+                  <AnimatePresence mode="sync">
+                    {chatMessages.map((msg, index) => {
+                      if (msg.type === "typing") return null
+                      if (!visibleMessages.includes(index)) return null
 
-                    return (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
-                      >
-                        <div
-                          className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                            msg.type === "user"
-                              ? "bg-cyan-500/20 border border-cyan-500/30 text-foreground"
-                              : "bg-card border border-border/50 text-foreground"
-                          }`}
+                      return (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: 0.4, ease: "easeOut" }}
+                          className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
                         >
-                          <p className="text-sm leading-relaxed">{msg.message}</p>
+                          <div
+                            className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                              msg.type === "user"
+                                ? "bg-cyan-500/20 border border-cyan-500/30 text-foreground"
+                                : "bg-card border border-border/50 text-foreground"
+                            }`}
+                          >
+                            <p className="text-sm leading-relaxed">{msg.message}</p>
+                          </div>
+                        </motion.div>
+                      )
+                    })}
+
+                    {/* Typing Indicator */}
+                    {showTyping && (
+                      <motion.div
+                        key="typing"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="flex justify-start"
+                      >
+                        <div className="bg-card border border-border/50 rounded-2xl px-4 py-3">
+                          <div className="flex items-center gap-1">
+                            {[0, 1, 2].map((i) => (
+                              <motion.span
+                                key={i}
+                                className="w-2 h-2 bg-cyan-400 rounded-full"
+                                animate={{ opacity: [0.4, 1, 0.4] }}
+                                transition={{
+                                  duration: 0.8,
+                                  repeat: Infinity,
+                                  delay: i * 0.15,
+                                }}
+                              />
+                            ))}
+                          </div>
                         </div>
                       </motion.div>
-                    )
-                  })}
-
-                  {/* Typing Indicator */}
-                  {showTyping && (
-                    <motion.div
-                      key="typing"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="flex justify-start"
-                    >
-                      <div className="bg-card border border-border/50 rounded-2xl px-4 py-3">
-                        <div className="flex items-center gap-1">
-                          {[0, 1, 2].map((i) => (
-                            <motion.span
-                              key={i}
-                              className="w-2 h-2 bg-cyan-400 rounded-full"
-                              animate={{ opacity: [0.4, 1, 0.4] }}
-                              transition={{
-                                duration: 0.8,
-                                repeat: Infinity,
-                                delay: i * 0.15,
-                              }}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
 
@@ -220,7 +234,7 @@ export function AIChatDemo() {
               className="absolute -bottom-4 left-1/2 -translate-x-1/2"
             >
               <div className="glass rounded-full px-4 py-2 flex items-center gap-2 border border-cyan-500/30">
-                <Zap size={14} className="text-cyan-400" />
+                <Bot size={14} className="text-cyan-400" />
                 <span className="text-xs text-foreground">Responds in under 10 seconds, 24/7</span>
               </div>
             </motion.div>
@@ -243,21 +257,37 @@ export function AIChatDemo() {
               </p>
             </div>
 
-            {/* Platform Pills */}
+            {/* Platform Pills with Real Logos */}
             <div className="flex flex-wrap gap-3">
-              {platformLogos.map((platform, index) => (
+              {platforms.map((platform, index) => (
                 <motion.div
                   key={platform.name}
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 + index * 0.1, duration: 0.4 }}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card border border-border/50 hover:border-border transition-colors"
+                  className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-card border border-border/50 hover:border-border transition-colors"
                 >
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: platform.color }}
-                  />
+                  {platform.logo ? (
+                    <Image
+                      src={platform.logo}
+                      alt={platform.name}
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
+                  ) : (
+                    <svg 
+                      className="w-5 h-5" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                  )}
                   <span className="text-sm text-foreground">{platform.name}</span>
                 </motion.div>
               ))}
@@ -266,10 +296,10 @@ export function AIChatDemo() {
             {/* Key Benefits */}
             <div className="space-y-3">
               {[
-                "Answers common questions instantly",
-                "Captures budget, location, timeline",
+                "Filters serious buyers from browsers",
+                "Captures budget, timeline, requirements",
                 "Books viewings while you sleep",
-                "Hands off qualified leads with full context",
+                "Hands off qualified leads with context",
               ].map((benefit, index) => (
                 <motion.div
                   key={index}

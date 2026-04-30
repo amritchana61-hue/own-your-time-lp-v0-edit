@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Linkedin, Twitter, Play } from "lucide-react"
 import Image from "next/image"
 
 export function SpecialistSection() {
@@ -66,132 +65,69 @@ export function SpecialistSection() {
             </p>
           </motion.div>
 
-          {/* Bio */}
-          <motion.p
+          {/* Bio with Manager-Focused Credibility */}
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-muted-foreground leading-relaxed max-w-xl mx-auto mb-8"
+            className="max-w-xl mx-auto mb-8"
           >
-            Helping real estate teams save 10+ hours every week with AI automation and chat assistants. 
-            Every system is built specifically for how your agency operates.
-          </motion.p>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Helping real estate teams save 10+ hours every week with AI automation and chat assistants. 
+              Every system is built specifically for how your agency operates.
+            </p>
+            
+            {/* Credibility Points */}
+            <div className="flex flex-wrap justify-center gap-4 text-sm">
+              <span className="px-3 py-1.5 rounded-full bg-card border border-border/50 text-muted-foreground">
+                50+ agencies helped
+              </span>
+              <span className="px-3 py-1.5 rounded-full bg-card border border-border/50 text-muted-foreground">
+                Built for teams of 2-10
+              </span>
+              <span className="px-3 py-1.5 rounded-full bg-card border border-border/50 text-muted-foreground">
+                Lead response specialist
+              </span>
+            </div>
+          </motion.div>
 
-          {/* Social Links */}
+          {/* Social Links with Real Logos */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex items-center justify-center gap-4 mb-12"
+            className="flex items-center justify-center gap-4"
           >
+            {/* LinkedIn */}
             <a
               href="#"
-              className="w-10 h-10 rounded-full glass-strong border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300"
+              className="w-11 h-11 rounded-full glass-strong border border-border/50 flex items-center justify-center hover:border-[#0A66C2]/50 transition-all duration-300 group"
             >
-              <Linkedin size={18} />
+              <svg 
+                className="w-5 h-5 text-muted-foreground group-hover:text-[#0A66C2] transition-colors" 
+                viewBox="0 0 24 24" 
+                fill="currentColor"
+              >
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
             </a>
+            
+            {/* Twitter/X */}
             <a
               href="#"
-              className="w-10 h-10 rounded-full glass-strong border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-300"
+              className="w-11 h-11 rounded-full glass-strong border border-border/50 flex items-center justify-center hover:border-foreground/50 transition-all duration-300 group"
             >
-              <Twitter size={18} />
+              <svg 
+                className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" 
+                viewBox="0 0 24 24" 
+                fill="currentColor"
+              >
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
             </a>
           </motion.div>
-        </motion.div>
-
-        {/* Video Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative"
-        >
-          <div className="text-center mb-6">
-            <h4 className="text-lg sm:text-xl font-light text-foreground mb-2">
-              A message for real estate teams
-            </h4>
-            <p className="text-sm text-muted-foreground">
-              2 minutes on the problems you face and how we solve them.
-            </p>
-          </div>
-
-          {/* Video Container */}
-          <div className="relative aspect-video rounded-2xl overflow-hidden glass-strong border border-border/50 group">
-            {/* Placeholder Video Background */}
-            <div className="absolute inset-0 bg-black overflow-hidden">
-              {/* Animated particle background */}
-              <div className="absolute inset-0">
-                {[...Array(30)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-1 h-1 bg-white rounded-full"
-                    style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
-                    }}
-                    animate={{
-                      opacity: [0.1, 0.6, 0.1],
-                      scale: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 3 + Math.random() * 2,
-                      repeat: Infinity,
-                      delay: Math.random() * 3,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Subtle grid pattern */}
-              <div 
-                className="absolute inset-0 opacity-5"
-                style={{
-                  backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                  backgroundSize: '40px 40px',
-                }}
-              />
-
-              {/* Center glow */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  className="w-48 h-48 rounded-full bg-primary/5 blur-3xl"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.5, 0.3],
-                  }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Play Button Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-white/20 transition-colors duration-300"
-              >
-                <Play size={32} className="text-white ml-1" fill="white" />
-              </motion.button>
-            </div>
-
-            {/* Video placeholder label */}
-            <div className="absolute bottom-4 left-4 right-4 z-10">
-              <div className="glass rounded-lg px-4 py-2 inline-block">
-                <span className="text-xs text-muted-foreground">
-                  Video coming soon
-                </span>
-              </div>
-            </div>
-          </div>
         </motion.div>
       </div>
     </section>
